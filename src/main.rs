@@ -6,14 +6,17 @@ mod value;
 
 use lexer::Lexer;
 use parser::Parser;
+use interpreter::Interpreter;
 
 fn main() {
     let src = r#"BEGIN { print "hello" } { print $1 } END { print "done" }"#;
+    let input = "foo bar\nbaz qux\n";
+
     let mut lex = Lexer::new(src);
     let tokens = lex.tokenize();
     let mut parser = Parser::new(tokens);
-    match parser.parse_program() {
-        Ok(program) => println!("{:#?}", program),
-        Err(e) => eprintln!("Parse error: {}", e),
-    }
+    let program = parser.parse_program().expect("parse error");
+
+    let mut interp = Interpreter::new();
+    interp.run(&program, input);
 }
