@@ -1,3 +1,9 @@
+mod ast;
+mod lexer;
+mod parser;
+mod interpreter;
+mod value;
+
 fn main() {
-    println!("Hello, world!");
+    println!("awk-rs");
 }
